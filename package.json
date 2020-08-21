@@ -1,0 +1,29 @@
+{
+  "name": "express-vue",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.ts",
+  "scripts": {
+    "start": "ts-node ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ajchili/express-vue.git"
+  },
+  "author": "Kirin Patel",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ajchili/express-vue/issues"
+  },
+  "homepage": "https://github.com/ajchili/express-vue#readme",
+  "dependencies": {
+    "@types/express": "^4.17.7",
+    "@types/node": "^14.6.0",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "ts-node": "^8.10.2",
+    "tsc": "^1.20150623.0",
+    "typescript": "^4.0.2"
+  }
+}
