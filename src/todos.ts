@@ -1,15 +1,7 @@
 import { Request, Response } from 'express';
-import fs from 'fs';
-import path from 'path';
-import { v4 as uuid } from 'uuid';
+import TODOController from './controllers/todo';
 
-const itemsPath = path.join(__dirname, 'todo.json');
-
-const createItemsFileIfNoneExists = () => {
-  if (!fs.existsSync(itemsPath)) {
-    fs.writeFileSync(itemsPath, '{}', { encoding: 'utf-8' });
-  }
-};
+const todoController = new TODOController();
 
 export const createItem = (req: Request, res: Response) => {
   const { title = '' } = req.body;
@@ -21,18 +13,8 @@ export const createItem = (req: Request, res: Response) => {
       );
     return;
   }
-  const newItem = {
-    createdAt: new Date().toISOString(),
-    title,
-    updatedAt: new Date().toISOString(),
-  };
-  createItemsFileIfNoneExists();
-  const itemsAsString = fs.readFileSync(itemsPath, { encoding: 'utf-8' });
-  const items = JSON.parse(itemsAsString);
-  const id = uuid();
-  items[id] = newItem;
-  fs.writeFileSync(itemsPath, JSON.stringify(items), { encoding: 'utf-8' });
-  res.status(200).json({ id, item: newItem });
+  const newItem = todoController.createItem(title);
+  res.status(200).json(newItem);
 };
 
 export const deleteItem = (req: Request, res: Response) => {
@@ -41,19 +23,16 @@ export const deleteItem = (req: Request, res: Response) => {
     res.status(400).send('Unable to delete item, no id provided!');
     return;
   }
-  createItemsFileIfNoneExists();
-  const itemsAsString = fs.readFileSync(itemsPath, { encoding: 'utf-8' });
-  const items = JSON.parse(itemsAsString);
-  delete items[id];
-  fs.writeFileSync(itemsPath, JSON.stringify(items), { encoding: 'utf-8' });
-  res.status(200).send();
+  try {
+    todoController.deleteItem(id);
+    res.status(200).send();
+  } catch {
+    res.status(404).send();
+  }
 };
 
 export const getItems = (_: Request, res: Response) => {
-  createItemsFileIfNoneExists();
-  const itemsAsString = fs.readFileSync(itemsPath, { encoding: 'utf-8' });
-  const items = JSON.parse(itemsAsString);
-  res.status(200).json(items);
+  res.status(200).json(todoController.getItems());
 };
 
 export const updateItem = (req: Request, res: Response) => {
@@ -70,10 +49,6 @@ export const updateItem = (req: Request, res: Response) => {
       );
     return;
   }
-  createItemsFileIfNoneExists();
-  const itemsAsString = fs.readFileSync(itemsPath, { encoding: 'utf-8' });
-  const items = JSON.parse(itemsAsString);
-  Object.assign(items[id], { title, updatedAt: new Date().toISOString() });
-  fs.writeFileSync(itemsPath, JSON.stringify(items), { encoding: 'utf-8' });
-  res.status(200).json(items[id]);
+  const updatedItem = todoController.updateItem(id, title);
+  res.status(200).json(updatedItem);
 };
