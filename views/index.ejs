@@ -7,7 +7,8 @@
   </head>
   <body>
     <div id="app">
-      {{ message }}
+      <span v-if="rendered">{{ message }}</span>
+      <span v-else><%= message %></span>
     </div>
   </body>
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
@@ -15,7 +16,13 @@
     let app = new Vue({
       el: '#app',
       data: {
-        message: 'Hello Vue!',
+        message: 'I was rendered by Vue.js!',
+        rendered: false,
+      },
+      mounted() {
+        setTimeout(() => {
+          this.rendered = true;
+        }, 1000);
       },
     });
   </script>
