@@ -1,0 +1,30 @@
+<div id="todo-item-list">
+  <div v-if="loaded">
+    <p v-for="(item, id) in items" :key="id">{{ item.title }} - {{ id }}</p>
+  </div>
+  <div v-else>
+    <% for (let id in items) { %>
+    <p><%= items[id].title %></p>
+    <% } %>
+  </div>
+</div>
+<script>
+  let list = new Vue({
+    el: '#todo-item-list',
+    data: {
+      items: JSON.parse(`<%- JSON.stringify(items) %>`),
+      loaded: true,
+    },
+    mounted() {
+      fetch('/todo', {
+        body: JSON.stringify({
+          title: 'A new title!',
+        }),
+        headers: { 'Content-Type': 'application/json' },
+        method: 'POST',
+      })
+        .then((response) => response.json())
+        .then((json) => Vue.set(this.items, json.id, json.newItem));
+    },
+  });
+</script>
