@@ -8,7 +8,7 @@
   <body>
     <div id="app">
       <span v-if="rendered">{{ message }}</span>
-      <span v-else><%= message %></span>
+      <span v-else><%= Object.keys(items).length %></span>
     </div>
   </body>
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>

@@ -1,12 +1,11 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
+    "module": "CommonJS",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "target": "es6",
-    "jsx": "react",
+    "target": "ES6",
     "noImplicitAny": true,
-    "moduleResolution": "node",
+    "moduleResolution": "Node",
     "sourceMap": true,
     "outDir": "dist",
     "baseUrl": ".",

@@ -1,15 +1,13 @@
 import fs from 'fs';
 import path from 'path';
 import { v4 as uuid } from 'uuid';
-
 export interface Item {
   createdAt: string;
   title: string;
   updatedAt: string;
 }
-
-export default class Controller {
-  private readonly filepath: string = path.join(__dirname, 'todo.json');
+export class TODOController {
+  private readonly filepath: string = path.join(__dirname, 'todo_data.json');
   private hasValidatedFileExists: boolean = false;
   private createFileIfNoneExists(): void {
     if (!this.hasValidatedFileExists && !fs.existsSync(this.filepath)) {
