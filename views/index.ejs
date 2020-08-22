@@ -7,6 +7,23 @@
   </head>
   <body>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <%- include('../templates/todo-item-list.ejs', { items }) %>
+    <div id="app">
+      <div v-if="loaded">
+        <create-item></create-item>
+        <list-item
+          v-for="(item, id) in items"
+          :key="id"
+          v-bind:id="id"
+          v-bind:item="item"
+        ></list-item>
+      </div>
+      <div v-else>
+        <%- include('../templates/todo-item-list.ejs', { items }) %>
+      </div>
+    </div>
+    <script>
+      const items = JSON.parse(`<%- JSON.stringify(items) %>`);
+    </script>
+    <script src="/js/app.js" type="module"></script>
   </body>
 </html>

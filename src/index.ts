@@ -6,6 +6,7 @@ import { TODOController } from './controllers/todo';
 const app = express();
 app.use(bodyparser.urlencoded({ extended: false }));
 app.use(bodyparser.json());
+app.use(express.static('public'));
 app.set('views', './views');
 app.set('view engine', 'ejs');
 
